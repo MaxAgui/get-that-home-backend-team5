@@ -8,7 +8,7 @@ class InteractionsController < ApplicationController
     properties = interactions.map do |interaction|
       Property.find_by(id: interaction.property_id)
     end
-    render json: properties.uniq!
+    render json: properties
   end
 
   #POST /favorites/:id -> id property
@@ -22,6 +22,17 @@ class InteractionsController < ApplicationController
      render json: { errors: interaction.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+  def show_interaction
+      property = Property.find(params[:id])
+      interaction = current_user.interactions.where(property_id: property.id)
+      if interaction
+       
+        render json: interaction
+      else
+        render json: { error: "Interaction not found" }, status: :not_found
+      end
+  end 
 
   # patch    '/favorites/:id'
 

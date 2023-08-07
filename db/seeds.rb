@@ -33,12 +33,13 @@ p user1.errors.full_messages unless user1.save
 puts "Seeding of 5 properties"
 
 k = 0
+array_coordenadas =[['-12.117979','-77.031427','C. 2 de Mayo 316, Miraflores 15074'],['-12.116426', '-77.038079','Ca. Gral. Miguel Iglesias 300-402, Miraflores 15074'],['-12.114952', '-77.042789','Av. Gral. Córdova 190-294, Miraflores 15073'],['-12.114566', '-77.047011','C. Ignacio Merino 318, Miraflores 15074']]
  User.all.each do |user1|
    if user1.type_user == "Landlord"
     2.times do |index|
       k = k +1
       property = Property.new(operation_type:"#{index.even? ? "Rent" : "Sale"}",
-                              location: Faker::Address.full_address,
+                              location: array_coordenadas[(k-1)/2],
                               price: rand(500..1500),
                               property_type:"#{index.even? ? "House" : "Aparment"}",
                               maintanance: rand(100..300),
